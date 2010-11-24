@@ -1,0 +1,7 @@
+Copyright 2010, iPOV.net
+Licensed under Apache Software Foundation License v2.0.  
+
+A copy of the Apache Software Foundation License 2.0 is available at 
+http://opensource.org/licenses/apache2.0.php
+
+This statement must be included in any copies of of this code.
