@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="net.ipov.dita.xhtml.toc">
+    <!--
+    DITA-OT plugin to make a table of contents xhtml file with CSS @class attributes to allow finer grained styling.
+
+    Since there does not appear to be an extension hook, we're not using the plugin mechanism.
+
+     -->
+
+    <!-- We want to dump the contents of the build_plugin.xml file into the main build.xml  -->
+    <feature extension="dita.conductor.target.relative" value="build_plugin.xml" type="file" />
+
+</plugin>

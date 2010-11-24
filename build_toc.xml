@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="net_ipov_dita_xhtml_toc" basedir=".">
+	<dirname property="net_ipov_dita_xhtml_toc.dir" file="${ant.file.net_ipov_dita_xhtml_toc}"/>
+</project>
