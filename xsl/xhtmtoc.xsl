@@ -91,10 +91,13 @@
 	        <xsl:attribute name="id">li-<xsl:value-of select="generate-id(.)"/></xsl:attribute>
 	        <xsl:attribute name="class">
 	           <xsl:choose>
-	               <xsl:when test="position() = 1"><xsl:value-of select="$xtoc-css-prefix"/>-first <xsl:value-of select="$xtoc-css-prefix"/>-topic</xsl:when>
-	               <xsl:when test="position() = last()"><xsl:value-of select="$xtoc-css-prefix"/>-last <xsl:value-of select="$xtoc-css-prefix"/>-topic</xsl:when>
-	               <xsl:otherwise><xsl:value-of select="$xtoc-css-prefix"/>-topic</xsl:otherwise>
+	               <xsl:when test="position() = 1"><xsl:value-of select="$xtoc-css-prefix"/><xsl:text>-first </xsl:text></xsl:when>
+	               <xsl:when test="position() = last()"><xsl:value-of select="$xtoc-css-prefix"/><xsl:text>-last </xsl:text></xsl:when>
 	           </xsl:choose>
+	           <xsl:choose>
+	               <xsl:when test="name(.) != 'topicref'"><xsl:value-of select="$xtoc-css-prefix"/>-<xsl:value-of select="name(.)"/><xsl:text> </xsl:text></xsl:when>
+	           </xsl:choose>
+	           <xsl:value-of select="$xtoc-css-prefix"/><xsl:text>-topic</xsl:text>
 	        </xsl:attribute>
 	        <xsl:choose>
 	          <!-- If there is a reference to a DITA or HTML file, and it is not external: -->
