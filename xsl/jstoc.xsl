@@ -7,36 +7,36 @@
     extension-element-prefixes="saxon xt"
     exclude-result-prefixes="java">
 
-   <!-- If we are in the ./plugins dir, then the path to the base file should be, once we import it, then we can set out properties. -->
-   <xsl:import href="../../../xsl/map2xhtmtoc.xsl"/>
+<!-- If we are in the ./plugins dir, then the path to the base file should be, once we import it, then we can set out properties. -->
+<xsl:import href="../../../xsl/map2xhtmtoc.xsl"/>
 
-   <xsl:output method="text" media-type="text/plain" encoding="UTF-8" indent="no" />
+<xsl:output method="text" media-type="text/plain" encoding="UTF-8" indent="no" />
 
-   <!-- TODO: Generate the following dynamically, either in XSL or in ANT -->
-   <xsl:param name="YEAR" select="'2010'"/>
+<!-- TODO: Generate the following dynamically, either in XSL or in ANT -->
+<xsl:param name="YEAR" select="'2010'"/>
 
-   <!-- Used to assign a prefix to the CSS class elements. -->
-   <xsl:param name="xtoc-css-prefix" select="'toc'"/>
+<!-- Used to assign a prefix to the CSS class elements. -->
+<xsl:param name="xtoc-css-prefix" select="'toc'"/>
 
-   <xsl:param name="xtoc-dita-prefix" select="'dita'"/>
+<xsl:param name="xtoc-dita-prefix" select="'dita'"/>
 
-   <!-- Include the map title as a heading in the document? -->
-   <xsl:param name="xtoc-include-map-title" select="'yes'"/>
+<!-- Include the map title as a heading in the document? -->
+<xsl:param name="xtoc-include-map-title" select="'yes'"/>
 
    <!-- used to 'define' a newline? -->
-   <xsl:variable name="newline">
-       <xsl:text>&#xa;</xsl:text>
-   </xsl:variable>
+<xsl:variable name="newline">
+    <xsl:text>&#xa;</xsl:text>
+</xsl:variable>
 
-   <xsl:variable name="quotation">
-       <xsl:text>&#xa;</xsl:text>
-   </xsl:variable>
+<xsl:variable name="quotation">
+    <xsl:text>&#xa;</xsl:text>
+</xsl:variable>
 
-   <xsl:template match="/">
+<xsl:template match="/">
        <xsl:apply-templates/>
-   </xsl:template>
+</xsl:template>
 
-   <xsl:template match="/*[contains(@class, ' map/map ')]">
+<xsl:template match="/*[contains(@class, ' map/map ')]">
   <xsl:param name="pathFromMaplist"/>
   <xsl:if test=".//*[contains(@class, ' map/topicref ')][not(@toc='no')][not(@processing-role='resource-only')]">
   {
@@ -50,12 +50,6 @@
       <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]">
         <xsl:with-param name="pathFromMaplist" select="$pathFromMaplist"/>
       </xsl:apply-templates>
-      <xsl:value-of select="$newline"/>
-      <!-- append and ending so we don't have a trailing comma -->
-      {
-        "eol":"true"
-      }
-      <xsl:value-of select="$newline"/>
     ]
   }<xsl:value-of select="$newline"/>
   </xsl:if>
@@ -120,9 +114,8 @@
                     <xsl:value-of select="@href"/>
                   </xsl:otherwise>
                 </xsl:choose>",
-            "scope":"<xsl:value-of select="@scope"/>",
-            "type":"<xsl:value-of select="@type"/>",
         </xsl:if>
+        <xsl:apply-templates select="@*" />
 
         <!-- If there are any children that should be in the TOC, process them -->
         <xsl:if test="descendant::*[contains(@class, ' map/topicref ')][not(contains(@toc,'no'))][not(@processing-role='resource-only')]">
@@ -131,45 +124,44 @@
             <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]">
               <xsl:with-param name="pathFromMaplist" select="$pathFromMaplist"/>
             </xsl:apply-templates>
-            <xsl:value-of select="$newline"/>
-            <!-- append and ending so we don't have a trailing comma -->
-            {
-            "eol":"true"
-            }
-            <xsl:value-of select="$newline"/>
             ]
         </xsl:if>
       <xsl:value-of select="$newline"/>
       </xsl:when>
       <xsl:otherwise>
-	      "title":"null",
           "children":[
 		      <!-- if it is an empty topicref -->
 		      <xsl:apply-templates select="*[contains(@class, ' map/topicref ')]">
 		        <xsl:with-param name="pathFromMaplist" select="$pathFromMaplist"/>
 		      </xsl:apply-templates>
-		      <xsl:value-of select="$newline"/>
-	          <!-- append and ending so we don't have a trailing comma -->
-	          {
-	            "eol":"true"
-	          }
-	          <xsl:value-of select="$newline"/>
 	      ]
       </xsl:otherwise>
     </xsl:choose>
-     },
+     }
+     <xsl:if test="position() != last()">
+     ,
+     </xsl:if>
 </xsl:template>
 
 <xsl:template name="commonProperties">
     <xsl:param name="nodeClass"></xsl:param>
     <xsl:text></xsl:text>
-    "nodeClass": "<xsl:value-of select="$nodeClass"/>",
     "nodeName": "<xsl:value-of select="name(.)"/>",
+    "nodeClass": "<xsl:value-of select="$nodeClass"/>",
     "nodeClassFull": "<xsl:value-of select="@class"/>",
      <xsl:choose>
        <xsl:when test="@id">"id":"<xsl:value-of select="@id"/>",</xsl:when>
        <xsl:otherwise>"id":"<xsl:value-of select="generate-id(.)"/>",</xsl:otherwise>
      </xsl:choose>
+</xsl:template>
+
+<!-- This are handled separatly -->
+<xsl:template match="@href|@navtitle|@xtrf|@id|@class|@chunk" priority="2"></xsl:template>
+
+<!-- Match any other attribute -->
+<xsl:template match="@*" priority="1">
+<xsl:text>"</xsl:text><xsl:value-of select="name(.)" />":"<xsl:value-of select="." /><xsl:text>",
+</xsl:text>
 </xsl:template>
 
 </xsl:stylesheet>
