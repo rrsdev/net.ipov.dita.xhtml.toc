@@ -10,25 +10,9 @@
         <!-- The file will typically be the user-docs.ditamap file in the tmp dir. -->
         <echo>ToC will be built from file:  ${dita.temp.dir}${file.separator}${user.input.file.listfile}</echo>
 
-        <!-- Alas there does not appear to be a useful way to get the path to the source ant file, as the way the build works,
-             the contents of the build_plugin.xml are actually inserted into the dita build xml file. -->
-        <xslt processor="trax"
-              basedir="${dita.temp.dir}"
-              destdir="${output.dir}"
-              includesfile="${dita.temp.dir}${file.separator}${user.input.file.listfile}"
-              classpathref="dost.class.path"
-              style="${net_ipov_dita_xhtml_toc.dir}${file.separator}xsl${file.separator}xhtmtoc.xsl">
-            <excludesfile name="${dita.temp.dir}${file.separator}${resourceonlyfile}" if="resourceonlyfile"/>
-            <param name="DITAEXT" expression="${dita.ext}" if="dita.ext" />
-            <param name="OUTEXT" expression="${out.ext}" if="out.ext" />
-            <param name="contenttarget" expression="${args.xhtml.contenttarget}" if="args.xhtml.contenttarget"/>
-            <param name="CSS" expression="${args.css.file}" if="args.css.file" />
-            <param name="CSSPATH" expression="${user.csspath}" if="user.csspath" />
-            <param name="OUTPUTCLASS" expression="${args.xhtml.toc.class}" if="args.xhtml.toc.class" />
-            <mapper type="glob"
-                    from="${user.input.file}"
-                    to="${args.xhtml.toc}${out.ext}" />
-        </xslt>
+    	<antcall target="net.ipov.dita.xhtml.toc-html" inheritall="true" inheritrefs="true"/>
+
+    	<antcall target="net.ipov.dita.xhtml.toc-js" inheritall="true" inheritrefs="true"/>
     </target>
 
 </project>

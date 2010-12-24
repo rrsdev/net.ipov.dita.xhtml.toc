@@ -26,29 +26,6 @@
         <xsl:text>&#xa;</xsl:text>
     </xsl:variable>
 
-    <!-- Can't link to commonltr.css or commonrtl.css because we don't know what language the map is in.
-	<xsl:template name="generateCssLinks">
-	  <xsl:variable name="urltest">
-	    <xsl:call-template name="url-string">
-	      <xsl:with-param name="urltext">
-	        <xsl:value-of select="concat($CSSPATH,$CSS)"/>
-	      </xsl:with-param>
-	    </xsl:call-template>
-	  </xsl:variable>
-	  <xsl:if test="string-length($CSS)>0">
-		  <xsl:choose>
-		    <xsl:when test="$urltest='url'">
-		      <link rel="stylesheet" type="text/css" href="{$CSSPATH}{$CSS}" />
-		    </xsl:when>
-		    <xsl:otherwise>
-		      <link rel="stylesheet" type="text/css" href="{$PATH2PROJ}{$CSSPATH}{$CSS}" />
-		    </xsl:otherwise>
-		  </xsl:choose><xsl:value-of select="$newline"/>
-	  </xsl:if>
-	  <xsl:if test="string-length($CSS)>0">
-	  </xsl:if>
-	</xsl:template> -->
-
     <xsl:template match="/*[contains(@class, ' map/map ')]">
 	  <xsl:param name="pathFromMaplist"/>
 	  <xsl:if test=".//*[contains(@class, ' map/topicref ')][not(@toc='no')][not(@processing-role='resource-only')]">
